@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Łódka</title>
+    <style>
+        #container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+        #yacht {
+            position: absolute;
+            width: 100px;
+        }
+        .info {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="yacht" src="jacht.jpg" alt="Łódka">
+    </div>
+<div class="info">
+    <p>Kierunek łódki: <span id="yacht-direction">0</span>°</p>
+    <p>Kierunek wiatru: <span id="wind-direction">0</span>°</p>
+    <p>Kurs żeglarski: <span id="sailing-course">Niezdefiniowany</span></p>
+    <div>
+        <p>Wiatr:</p>
+        <img id="wind-arrow" src="wind.gif" alt="Kierunek wiatru" style="width: 50px; height: 50px;">
+    </div>
+</div>
+    <script src="play.js"></script>
+</body
+
