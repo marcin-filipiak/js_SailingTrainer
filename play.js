@@ -4,6 +4,8 @@ const yachtDirectionLabel = document.getElementById("yacht-direction");
 const windDirectionLabel = document.getElementById("wind-direction");
 const sailingCourseLabel = document.getElementById("sailing-course");
 const yachtIcon = document.getElementById("yacht");
+let currentSpeed = 0; // Aktualna prędkość jachtu
+const speedChangeRate = 0.025; //0.1 Wartość zmiany prędkości na klatkę (0-1)
 
 
 // Początkowa pozycja, rotacja i prędkość
@@ -24,11 +26,25 @@ function updatePosition() {
     yacht.style.transform = `translate(${position.x}px, ${position.y}px) rotate(${rotation}deg)`;
     yachtDirectionLabel.textContent = rotation;
 }
-
+//Sprawdzam kierunek wiatru
+//@returns {string} L||R (L -left || R - right)
+function checkWindDirection(){
+    //windDirection - kierunek wiatru (punkt 0)
+    //rotation - kąt łódki
+    let fromWind = rotation;
+    let toWind = (rotation+180>360)?rotation+180-360:rotation+180;
+    let wind ='';
+    if(toWind<fromWind){
+        wind = (windDirection>=fromWind || windDirection<toWind)?'R':'L';
+    }else{
+        wind = (windDirection>=fromWind && windDirection<toWind)?'R':'L';
+    } 
+    console.log(`wiatr:${windDirection},lodz:${rotation},${wind},${currentSpeed.toFixed(2)}`);
+    return wind;
+}
 // Obliczanie prędkości na podstawie kąta łódki względem wiatru
-function calculateSpeed() {
+function calculateSpeed() { 
     let relativeAngle = Math.abs((rotation - windDirection + 360) % 360);
-
 
     let foo = relativeAngle;
     if (relativeAngle >= 180) foo = Math.abs(relativeAngle - 360);
@@ -56,21 +72,50 @@ function updateSailingCourse() {
     if (relativeAngle >= 180) foo = Math.abs(relativeAngle - 360);
     
     let courseName = "";
+    let direction  = checkWindDirection();
     if (Math.abs(foo) <= deadAngle) {
         courseName = "Kąt martwy"; // Brak ruchu w martwym kącie
         yachtIcon.src = "yacht_lopot.jpg";
     } else if (Math.abs(foo) > deadAngle && Math.abs(foo) <= 45) {
-        courseName = "Bajdewind"; // Wiatr od boku, ale bardziej z przodu
-        yachtIcon.src = "yacht_lewy.jpg";
+        // Wiatr od boku, ale bardziej z przodu
+        if (direction === "R"){
+            courseName = `Bajdewind prawego halsu`;
+            yachtIcon.src = "yacht_prawy.jpg";
+        }
+        else {
+            courseName = `Bajdewind lewego halsu`;
+            yachtIcon.src = "yacht_lewy.jpg";
+        }  
     } else if (Math.abs(foo) > 45 && Math.abs(foo) <= 90) {
-        courseName = "Półwiatr"; // Wiatr od boku
-        yachtIcon.src = "yacht_lewy.jpg";
+        // Wiatr od boku
+        if (direction === "R"){
+            courseName = `Półwiatr prawego halsu`;
+            yachtIcon.src = "yacht_prawy.jpg";
+        }
+        else {
+            courseName = `Półwiatr lewego halsu`;
+            yachtIcon.src = "yacht_lewy.jpg";
+        } 
     } else if (Math.abs(foo) > 90 && Math.abs(foo) <= 135) {
-        courseName = "Baksztag"; // Wiatr od boku, ale bardziej z tyłu
-        yachtIcon.src = "yacht_lewy.jpg";
+        // Wiatr od boku, ale bardziej z tyłu
+        if (direction === "R"){
+            courseName = `Baksztag prawego halsu`;
+            yachtIcon.src = "yacht_prawy.jpg";
+        }
+        else {
+            courseName = `Baksztag lewego halsu`;
+            yachtIcon.src = "yacht_lewy.jpg";
+        }
     } else if (Math.abs(foo) > 135 && Math.abs(foo) <= 180) {
-        courseName = "Fordewind"; // Wiatr w plecy
-        yachtIcon.src = "yacht_lewy.jpg";
+        // Wiatr w plecy
+        if (direction === "R"){
+            courseName = `Fordewind prawego halsu`;
+            yachtIcon.src = "yacht_prawy.jpg";
+        }
+        else {
+            courseName = `Fordewind lewego halsu`;
+            yachtIcon.src = "yacht_lewy.jpg";
+        }
     } else {
         courseName = "Kąt martwy"; // Wciąż brak ruchu w tym przypadku
         yachtIcon.src = "yacht_lopot.jpg";
@@ -82,13 +127,24 @@ function updateSailingCourse() {
 
 // Funkcja przesuwająca łódkę do przodu
 function moveForward() {
-    const speed = calculateSpeed(); // Obliczenie prędkości
-    if (speed === 0) return; // Brak ruchu w kącie martwym
+    const targetSpeed = calculateSpeed(); // Prędkość docelowa
+    if (Math.abs(currentSpeed - targetSpeed) > speedChangeRate) {
+        // Stopniowa zmiana prędkości
+        if (currentSpeed < targetSpeed) {
+            currentSpeed += speedChangeRate; // Przyspieszanie
+        } else {
+            currentSpeed -= speedChangeRate; // Zwolnienie
+        }
+    } else {
+        currentSpeed = targetSpeed; // Ustalenie prędkości docelowej
+    }
+
+    if (currentSpeed === 0) return; // Brak ruchu
 
     const angleInRadians = (rotation * Math.PI) / 180;
 
-    position.x += speed * Math.cos(angleInRadians);
-    position.y += speed * Math.sin(angleInRadians);
+    position.x += currentSpeed * Math.cos(angleInRadians);
+    position.y += currentSpeed * Math.sin(angleInRadians);
 
     // Zapobieganie wyjściu poza kontener
     if (position.x < 0) position.x = 0;
@@ -101,7 +157,7 @@ function moveForward() {
     }
 
     updatePosition();
-    updateSailingCourse(); // Uaktualnienie nazwy kursu po przesunięciu
+    updateSailingCourse();
 }
 
 // Obsługa klawiszy do zmiany kierunku
@@ -131,4 +187,3 @@ updatePosition();
 
 // Animacja płynącego jachtu
 setInterval(moveForward, 50); 
-
