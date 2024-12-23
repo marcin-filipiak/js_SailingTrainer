@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#info-panel {
+    width: 900px;
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 18px;
+}
+
+#container {
+    position: relative;
+    width: 900px;
+    height: 600px;
+    border: 2px solid #004080;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #7da6ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#yacht {
+    position: absolute;
+    width: 100px;
+    transform: translate(-50%, -50%);
+}
+
+#wind-arrow {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    border: 0px;
+}
+
+.command {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.command h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.command input[type="button"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #004080;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.command input[type="button"]:hover {
+    background-color: #0059b3;
+}
+
+textarea#command_response {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+}
+

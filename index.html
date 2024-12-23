@@ -3,38 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Łódka</title>
-    <style>
-        #container {
-            position: relative;
-            width: 900px;
-            height: 600px;
-            border: 1px solid black;
-            overflow: hidden;
-            background-color: #7da6ff;
-        }
-        #yacht {
-            position: absolute;
-            width: 100px;
-        }
-        .info {
-            margin-top: 10px;
-        }
-    </style>
+    <title>Łódka - Sterowanie</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Łódka - Interfejs Sterowania</h1>
+
+    <div id="info-panel">
+        <p>Kierunek łódki: <span id="yacht-direction">0</span>°</p>
+        <p>Kierunek wiatru: <span id="wind-direction">0</span>°</p>
+        <p>Kurs żeglarski: <span id="sailing-course">Niezdefiniowany</span></p>
+    </div>
+
     <div id="container">
         <img id="yacht" src="yacht_lopot.jpg" alt="Łódka">
+        <img id="wind-arrow" src="wind.gif" alt="Kierunek wiatru">
     </div>
-<div class="info">
-    <p>Kierunek łódki: <span id="yacht-direction">0</span>°</p>
-    <p>Kierunek wiatru: <span id="wind-direction">0</span>°</p>
-    <p>Kurs żeglarski: <span id="sailing-course">Niezdefiniowany</span></p>
-    <div>
-        <p>Wiatr:</p>
-        <img id="wind-arrow" src="wind.gif" alt="Kierunek wiatru" style="width: 50px; height: 50px;">
+
+    <div class="command">
+        <h2>Sterowanie</h2>
+        <div class="control-row">
+            <input type="button" value="Zwrot przez rufę">
+            <input type="button" value="Zwrot przez sztag">
+        </div>
+        <div class="control-row">
+            <input type="button" value="Lewy foka szot luzuj">
+            <input type="button" value="Prawy foka szot luzuj">
+        </div>
+        <div class="control-row">
+            <input type="button" value="Lewy foka szot wybieraj">
+            <input type="button" value="Prawy foka szot wybieraj">
+        </div>
+        <div class="control-row">
+            <input type="button" value="Lewy grota szot luzuj">
+            <input type="button" value="Prawy grota szot luzuj">
+        </div>
+        <div class="control-row">
+            <input type="button" value="Lewy grota szot wybieraj">
+            <input type="button" value="Prawy grota szot wybieraj">
+        </div>
+        <textarea id="command_response" placeholder="Tutaj pojawią się komunikaty..."></textarea>
     </div>
-</div>
+
     <script src="play.js"></script>
 </body>
 </html>
